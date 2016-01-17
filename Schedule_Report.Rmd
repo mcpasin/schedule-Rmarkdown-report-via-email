@@ -1,0 +1,58 @@
+---
+title: "Google Analytics Scheduled Report"
+author: "Marco Pasin"
+date: "10 Jan 2016"
+output: html_document
+---
+
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+#### 1.Install and Load Required Packages
+
+#install.packages("RGoogleAnalytics")
+library(RGoogleAnalytics)
+#install.packages("httpuv")
+library(httpuv)
+```
+
+
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+#### 2.Authorize Access to Google Analytics API
+
+client.id <- "YOURCLIENTID"
+client.secret <- "YOURCLIENTSECRET"
+view.id <- "ga:YOURVIEWID"
+# Now load and validate the token
+# token must be generated previously and placed in the working directory
+load("./token")
+ValidateToken(token)
+```
+
+
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+#### 3.Build the Query
+
+#you can use dynamic dates instead of changing it manually
+start.date <- "2015-12-01"
+end.date <- "2015-12-31"
+query.list <- Init(start.date = start.date, end.date = end.date, dimensions = "ga:date",metrics = "ga:sessions", table.id = view.id)
+
+ga.query <- QueryBuilder(query.list)
+ga.data <- GetReportData(ga.query, token,paginate_query = F)
+# data are now available as a data.frame by calling ga.data
+```
+
+
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+#### 4. Fix dates into date format (they come originally as character format)
+
+ga.data$date<-as.Date(ga.data$date,"%Y%m%d")
+```
+
+
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+#### 5. Visualize the data
+
+require(ggplot2)
+ggplot( data = ga.data, aes( date, sessions,colour="red" )) + geom_line()+geom_line(color="orange", size=1.75) 
++ geom_point(color="red", size=3.5) + ggtitle("Last Month Sessions") + theme(legend.title=element_blank())
+```
