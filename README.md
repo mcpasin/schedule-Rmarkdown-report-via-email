@@ -7,5 +7,5 @@ Steps:
 - Schedule a task in Windows
 
 Files in the repo:
-- "Schedule_Report.Rmd"
+- "Schedule_Report.Rmd" (this reports connects to Google Analytics API, extracts some data via a query and generates a simple chart using ggplot2 library. To reproduce it, you must have a GA account, and generate a token using your own credentials).
 - "Script.R"
