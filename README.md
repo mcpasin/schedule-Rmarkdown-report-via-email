@@ -9,3 +9,6 @@ Steps:
 Files in the repo:
 - "Schedule_Report.Rmd" (this reports connects to Google Analytics API, extracts some data via a query and generates a simple chart using ggplot2 library. To reproduce it, you must have a GA account, and generate a token using your own credentials).
 - "Script.R"
+
+
+Read here for a detailed explanation: http://www.analyticsforfun.com/2016/01/scheduling-r-markdown-reports-via-email.html
